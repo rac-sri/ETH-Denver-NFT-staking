@@ -15,7 +15,7 @@ contract NFTStaking is ERC721, AccessControl {
     constructor() ERC721("NSB", "NFTStaking") {}
 
     function addERC20Token(IERC20 addr, uint256 amount) public {
-        // approval is required post this step
+        // approval is required pre this step
         // vulnerable approach, since addr.transferFrom can be malicous and no token actually gets deposited.
         require(
             addr.transferFrom(msg.sender, address(this), amount),
