@@ -67,7 +67,7 @@ contract NFTStaking is ERC721, AccessControl {
         }
     }
 
-    function getLockingPeriodLeft(address _pool) public view returns (uint256) {
+    function getLockingPeriodLeft(address _pool) public view returns (int256) {
         return
             block.timestamp - positionsToUser[msg.sender][_pool].lockTimestamp;
     }
