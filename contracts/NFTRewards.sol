@@ -13,8 +13,6 @@ contract NFTStakingFactory {
 
     mapping(address => ProtocolDetails) addressList;
 
-    constructor() public {}
-
     /// @notice function to add a new contract supporting the configuration
     function createNewProtocolSupport(
         address _targetInteractionContract,
