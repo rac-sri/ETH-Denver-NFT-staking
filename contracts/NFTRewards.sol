@@ -29,7 +29,7 @@ contract NFTStakingFactory {
     }
 
     /// @notice update protocol details
-    function updateProtocolDeatails(
+    function updateProtocolDetails(
         address _targetInteractionContract,
         string calldata Name,
         string calldata Description,
@@ -45,5 +45,13 @@ contract NFTStakingFactory {
         protocol.owner = owner;
         protocol.Name = Name;
         protocol.Description = Description;
+    }
+
+    function getProtocolDetails(address _targetInterationContract)
+        external
+        view
+        returns (ProtocolDetails memory)
+    {
+        return addressList[_targetInterationContract];
     }
 }

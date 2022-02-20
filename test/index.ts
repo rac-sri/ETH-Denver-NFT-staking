@@ -1,19 +1,33 @@
 import { expect } from "chai";
+import { Signer } from "ethers";
 import { ethers } from "hardhat";
+import { NFTStakingFactory } from "../typechain";
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
+describe("NFTStakingFactory", function () {
+  let nftStakingFactory: NFTStakingFactory, owner: Signer;
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+  before(async () => {
+    const nftFactory = await ethers.getContractFactory("NFTStakingFactory");
+    nftStakingFactory = await nftFactory.deploy();
+    await nftStakingFactory.deployed();
+    [owner] = await ethers.getSigners();
+  });
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+  it("Create New Protocol Support", async function () {
+    const createNewProtocolTx =
+      await nftStakingFactory.createNewProtocolSupport(
+        ethers.constants.AddressZero,
+        "Dssas",
+        "asdsad",
+        await owner.getAddress()
+      );
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
-
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    await createNewProtocolTx.wait();
+    const details = await nftStakingFactory.getProtocolDetails(
+      ethers.constants.AddressZero
+    );
+    expect(details.Name).to.equal("Dssas");
+    expect(details.Description).to.equal("asdsad");
+    expect(details.owner).to.equal(await owner.getAddress());
   });
 });
